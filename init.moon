@@ -60,9 +60,11 @@ command.register({
     l,tmpr = app.editor.buffer\rfind('(', cursor_position)
     print(l, tmpr)
     r = app.editor\get_matching_brace(l)
-    fl = app.editor.buffer\rfind('(', r)
-    return unless fl
-    fr = app.editor\get_matching_brace(fl)
+    print('r',r)
+    fr = app.editor.buffer\rfind(')', r-1)
+    print('fr',fr)
+    return unless fr
+    fl = app.editor\get_matching_brace(fr)
     app.editor.selection\set(fl,fr+1)
     app.editor.buffer\as_one_undo ->
       app.editor\with_selection_preserved ->
