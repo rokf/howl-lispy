@@ -1,23 +1,15 @@
 import command from howl
 import app from howl
 
--- parent (delete the parent and put this sexp instead of it)
-
--- wrap
-
-
-
 -- kill
 command.register({
   name: 'kill-sexp'
   description: 'Kill the S-expression.'
   handler: () ->
     cursor_position = app.editor.cursor.pos
-    print(cursor_position)
-    l,tmpr = app.editor.buffer\rfind('(', cursor_position)
-    print(l, tmpr)
+    l,_ = app.editor.buffer\rfind('(', cursor_position)
     r = app.editor\get_matching_brace(l)
-    app.editor.buffer\delete(cursor_position,r-1)
+    app.editor.buffer\delete(l,r)
 })
 
 -- split
@@ -35,9 +27,7 @@ command.register({
   description: 'Slurp the following sexp'
   handler: () ->
     cursor_position = app.editor.cursor.pos
-    print(cursor_position)
-    l,tmpr = app.editor.buffer\rfind('(', cursor_position)
-    print(l, tmpr)
+    l,_ = app.editor.buffer\rfind('(', cursor_position)
     r = app.editor\get_matching_brace(l)
     fl = app.editor.buffer\find('(', r)
     return unless fl
@@ -56,13 +46,9 @@ command.register({
   description: 'Barf the last expression in the sexp'
   handler: () ->
     cursor_position = app.editor.cursor.pos
-    print(cursor_position)
-    l,tmpr = app.editor.buffer\rfind('(', cursor_position)
-    print(l, tmpr)
+    l,_ = app.editor.buffer\rfind('(', cursor_position)
     r = app.editor\get_matching_brace(l)
-    print('r',r)
     fr = app.editor.buffer\rfind(')', r-1)
-    print('fr',fr)
     return unless fr
     fl = app.editor\get_matching_brace(fr)
     app.editor.selection\set(fl,fr+1)
@@ -79,9 +65,7 @@ command.register({
   description: 'Delete the S-expression.'
   handler: () ->
     cursor_position = app.editor.cursor.pos
-    print(cursor_position)
-    l,tmpr = app.editor.buffer\rfind('(', cursor_position)
-    print(l, tmpr)
+    l,_ = app.editor.buffer\rfind('(', cursor_position)
     r = app.editor\get_matching_brace(l)
     app.editor.buffer\delete(l,r)
 })
@@ -92,9 +76,7 @@ command.register({
   description: 'Select the S-expression.'
   handler: () ->
     cursor_position = app.editor.cursor.pos
-    print(cursor_position)
-    l,tmpr = app.editor.buffer\rfind('(', cursor_position)
-    print(l, tmpr)
+    l,_ = app.editor.buffer\rfind('(', cursor_position)
     r = app.editor\get_matching_brace(l)
     app.editor.selection\set(l,r+1)
 })

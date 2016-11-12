@@ -1,6 +1,7 @@
 # Lispy
 
-A **Howl** bundle with commands similar to **ParEdit**(Emacs) for languages with **S**-expressions(Lisp-like).
+A **Howl** bundle with commands similar to **ParEdit**(Emacs)
+for languages with **S**-expressions(Lisp-like).
 
 ####Contains:
 
