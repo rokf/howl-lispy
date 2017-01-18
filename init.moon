@@ -34,10 +34,12 @@ command.register({
     fr = app.editor\get_matching_brace(fl)
     app.editor.selection\set(fl,fr+1)
     app.editor.buffer\as_one_undo ->
-      app.editor\with_selection_preserved ->
-        text = app.editor.buffer\chunk(fl - (fl-r), fl - (fl-r)).text
-        app.editor.buffer\insert text, fr+1
-        app.editor.buffer\delete fl - (fl-r), fl - (fl-r)
+      -- app.editor\with_selection_preserved ->
+      text = app.editor.buffer\chunk(fl - (fl-r), fl - (fl-r)).text
+      app.editor.buffer\insert(text, fr+1)
+      app.editor.buffer\delete fl - (fl-r), fl - (fl-r)
+      app.editor.cursor.pos = cursor_position
+      howl.command.run("editor-indent-all")
 })
 
 -- barf
@@ -50,13 +52,21 @@ command.register({
     r = app.editor\get_matching_brace(l)
     fr = app.editor.buffer\rfind(')', r-1)
     return unless fr
+    if fr < l
+      return
     fl = app.editor\get_matching_brace(fr)
     app.editor.selection\set(fl,fr+1)
     app.editor.buffer\as_one_undo ->
-      app.editor\with_selection_preserved ->
-        text = app.editor.buffer\chunk(fr, fr).text
-        app.editor.buffer\delete fr, fr
-        app.editor.buffer\insert text, fl - 1
+      -- app.editor\with_selection_preserved ->
+      text = app.editor.buffer\chunk(fr, fr).text
+      app.editor.buffer\delete fr, fr
+      app.editor.buffer\insert text, fl - 1
+      app.editor.cursor.pos = cursor_position
+      app.editor.buffer\replace("%s+%)",")")
+      l2,_ = app.editor.buffer\rfind('(', cursor_position)
+      r2 = app.editor\get_matching_brace(l2)
+      app.editor.buffer\insert("\n", r2+1)
+      howl.command.run("editor-indent-all")
 })
 
 -- delete
