@@ -1,6 +1,30 @@
 import command from howl
 import app from howl
 
+-- previous
+command.register({
+  name: 'previous-sexp'
+  description: 'Go to the previous S-expression'
+  handler: () ->
+    cp = app.editor.cursor.pos
+    l,_ = app.editor.buffer\rfind(')',cp)
+    if l
+      r = app.editor\get_matching_brace(l)
+      if r
+        app.editor.cursor.pos = r + 1
+})
+
+-- next
+command.register({
+  name: 'next-sexp'
+  description: 'Go to the next S-expression'
+  handler: () ->
+    cp = app.editor.cursor.pos
+    l,_ = app.editor.buffer\find('(',cp)
+    if l
+      app.editor.cursor.pos = l + 1
+})
+
 -- kill
 command.register({
   name: 'kill-sexp'
@@ -98,6 +122,8 @@ unload = () ->
   command.unregister('barf-sexp')
   command.unregister('kill-sexp')
   command.unregister('split-sexp')
+  command.unregister('previous-sexp')
+  command.unregister('next-sexp')
 
 {
   info: {

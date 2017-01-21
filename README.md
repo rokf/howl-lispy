@@ -1,9 +1,10 @@
-# Lispy
+# Lispy (wip!)
 
-A **Howl** bundle with commands similar to **ParEdit**(Emacs)
+A **Howl** bundle with some commands similar to **ParEdit**
 for languages with **S**-expressions(Lisp-like).
 
-####Contains:
+The bundle provides these commands prefixed with *sexp-* which can
+be bound to shortcuts in `~/.howl/init.lua`:
 
 - select
 - delete
@@ -11,3 +12,5 @@ for languages with **S**-expressions(Lisp-like).
 - barf
 - kill
 - split
+- previous
+- next
